@@ -162,6 +162,20 @@ class Score:
         self.img = self.fonto.render(f"Score:{self.score}", 0, (0, 0, 255))
         screen.blit(self.img, self.rct)
 
+class Explosion:
+    """
+    爆発を演出するクラス
+    """
+    def __init__(self):
+        """
+        爆発した爆発の座標を設定
+        """
+    def update(self, screen: pg.Surface):
+        """
+        爆発経過時間lifeを計算
+        引数 screen：画面Surface
+        """
+
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
