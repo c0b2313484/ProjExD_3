@@ -172,6 +172,7 @@ def main():
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     score = Score()
+    bm_lst = []  #練習2
     clock = pg.time.Clock()
     tmr = 0
     while True:
