@@ -96,7 +96,7 @@ class Beam:
         """
         self.img = pg.image.load(f"fig/beam.png")  # 画面のロード
         self.rct = self.img.get_rect()
-        self.rct.centery = bird.rct.centery  # ビームの中心縦座標こうかとんの中心縦座標
+        self.rct.centery = bird.rct.centery  # ビームの中心縦座標=こうかとんの中心縦座標
         self.rct.left = bird.rct.right  # ビームの左座標=こうかとんの右座標
         self.vx, self.vy = +5, 0
 
@@ -140,6 +140,28 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+class Score:
+    """
+    こうかとんが爆弾を撃ち落したスコアに関するクラス
+    """
+    def __init__(self):
+        """
+        文字列Surfaceの生成
+        """
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)  # フォント設定
+        self.score = 0  # スコアの初期値の設定
+        self.img = self.fonto.render(f"Score:{self.score}", 0, (0, 0, 255))  # 文字列Surfaceの作成
+        self.rct = self.img.get_rect()
+        self.rct = 100, HEIGHT-50  # 文字列の中心座標
+
+    def update(self, screen: pg.Surface):
+        """
+        現在のスコアを表示する文字列Surfaceの生成
+        引数 screen：画面Surface
+        """
+        self.img = self.fonto.render(f"Score:{self.score}", 0, (0, 0, 255))
+        screen.blit(self.img, self.rct)
+
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
@@ -149,6 +171,7 @@ def main():
     beam = None
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
+    score = Score()
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -164,7 +187,7 @@ def main():
         for bomb in bombs:
             if bird.rct.colliderect(bomb.rct):
                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
-                bird.change_img(8, screen)
+                # bird.change_img(8, screen)
                 fonto = pg.font.Font(None, 80)
                 txt = fonto.render("Game Over", True, (255, 0, 0))
                 screen.blit(txt, [WIDTH/2-150, HEIGHT/2])
@@ -179,7 +202,10 @@ def main():
                     bombs[i] = None  # 撃ち落された部分だけNone
                     beam = None
                     bird.change_img(6, screen)
+                    score.score += 1
         bombs = [bomb for bomb in bombs if bomb is not None]  # Noneを取り除いたリスト
+
+        score.update(screen)
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
