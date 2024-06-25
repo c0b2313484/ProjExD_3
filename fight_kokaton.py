@@ -205,9 +205,7 @@ def main():
                     bird.change_img(6, screen)
                     score.score += 1
         bombs = [bomb for bomb in bombs if bomb is not None]  # Noneを取り除いたリスト
-
         score.update(screen)
-
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:
