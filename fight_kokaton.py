@@ -171,13 +171,14 @@ def main():
                 if bomb.rct.colliderect(beam.rct):  # 衝突判定
                     bomb = None
                     beam = None
+                    bird.change_img(6, screen)
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:
             beam.update(screen)   # updateメソッドを呼び出す
         if bomb is not None:
-            beam.update(screen)
+            bomb.update(screen)
         bomb.update(screen)
         pg.display.update()
         tmr += 1
